@@ -1,0 +1,86 @@
+<div class="ui container">
+  <h1 class="ui header">Simple Agora Video App</h1>
+  <hr>
+  <div class="ui two column stackable grid">
+    <div class="ui ten wide column">
+      <div class="ui segment">
+
+        <!-- Chat Room Form -->
+        <div class="ui form">
+          <div class="fields">
+            <div class="field">
+              <label>User Name</label>
+              <input autocomplete="off" type="text" placeholder="Enter user name" id="username" name="username" [(ngModel)]="userName">
+            </div>
+            <div class="field">
+              <label>Channel Name</label>
+              <input autocomplete="off" type="text" placeholder="Enter channel name" id="channel" name="channel" [(ngModel)]="channelName">
+            </div>
+          </div>
+          <br>
+          <div class="ui buttons" (click)="startCall()">
+            <div class="or"></div>
+            <button *ngIf="hideBtns">Start Video Call</button>
+          </div>
+          <div class="ui buttons" (click)="startCall()">
+            <div class="or"></div>
+            <button *ngIf="hideBtns">Start Voice Call</button>
+          </div>
+        </div>
+
+        <div *ngIf="spinner">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <!-- Chat Room Messages -->
+        <div id="chat"></div>
+      </div>
+    </div>
+
+    <!-- Local user Camera -->
+    <div class="ui six wide column">
+      <!-- <img  id="local-image" class="ui large image" src="../assets/images/image.png" style="  width: 200px;
+      height: 200px;"> -->
+    <div id="local-player" class="player"></div>
+
+      <!-- <video id="local-video" class="ui large image"  autoplay></video> -->
+      <p>{{userName}}</p>
+      <h4 class="ui center aligned header" style="margin:0;">
+        Local User
+      </h4>
+    </div>
+  </div>
+
+  <!-- Remote user Cameras -->
+  <h3 class="ui center aligned header">Remote Users</h3>
+  <div id="remote-videos" class="ui stackable grid">
+    <div class="four wide column" *ngFor="let i of stream.remoteUsers">
+      <!-- <img class="ui centered medium image" src="../assets/images/image.png" style="  width: 200px;
+      height: 200px;"> -->
+      <div id="{{ 'remote-playerlist' + i.uid}}" class="ui centered medium image" style="  width: 200px;
+      height: 200px;">{{i.name}}</div>
+<p></p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Send Messages</label>
+    <input autocomplete="off" type="text" placeholder="text messaging" id="texting" name="texting" [(ngModel)]="sendedMessage">
+  </div>
+
+  <select name="P2P" id="P2P" [(ngModel)]="selectedPeer">
+    <option></option>
+    <option [ngValue]="i" *ngFor="let i of stream.remoteUsers">{{i.name}}</option>
+  </select>
+
+  <div>
+    <button (click)="channelMsg()">Send message in channel</button>
+    <button (click)="peertopeer()">Send One to One message</button>
+
+    <button (click)="rtmclientChannelLogout()">leave Channel</button>
+  </div>
+
+</div>
+
